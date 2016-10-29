@@ -7,12 +7,26 @@ RSpec.feature "Creating Articles" do
 
     click_link "New Article"
 
-    fill_in "Title", with: "Creating firs article"
+    fill_in "Title", with: "Creating first article"
     fill_in "Body", with: "Lorem Ipsum"
     click_button "Create Article"
 
     expect(page).to have_content("Article has been created")
     expect(page.current_path).to eq(articles_path)
+  end
+
+  scenario "A user fails to create a new Article." do
+    visit "/"
+
+    click_link "New Article"
+
+    fill_in "Title", with: ""
+    fill_in "Body", with: ""
+    click_button "Create Article"
+
+    expect(page).to have_content("Article was not created.")
+    expect(page).to have_content("Title can't be blank.")
+    expect(page).to have_content("Body can't be blank.")
   end
 
 end
